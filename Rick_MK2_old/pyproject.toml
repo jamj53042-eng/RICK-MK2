@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Rick-MK2"
+version = "0.2.0"
+description = "Rick MK2: streaks, logs, and bonuses"
+authors = [{ name = "Jam" }]
+dependencies = []
+
+[tool.setuptools]
+packages = ["Rick_MK2"]

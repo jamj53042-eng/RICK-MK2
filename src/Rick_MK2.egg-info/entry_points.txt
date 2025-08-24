@@ -1,0 +1,2 @@
+[console_scripts]
+rick = Rick_MK2.cli:main

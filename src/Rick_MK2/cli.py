@@ -1,0 +1,85 @@
+﻿from __future__ import annotations
+import click
+from .storage import Storage
+from .journal import (
+    log_entry,
+    search_entries_by_tag,
+    update_entry,
+    remove_entry,
+    clear_entries_by_tag,
+    clear_all_entries,
+)
+from .quest import (
+    add_quest, list_quests, complete_quest, delete_quest, clear_quests
+)
+from .xp import gain_xp, get_streak
+from .inventory import (
+    list_items as inv_list,
+    add_item as inv_add,
+    remove_item as inv_remove,
+    roll_challenge_loot,
+    get_inventory_summary,
+)
+
+@click.group()
+def main():
+    """Rick MK2 CLI"""
+
+@main.command()
+@click.option("--compact", is_flag=True, help="Compact timeline view.")
+def status(compact: bool):
+    data = Storage().load()
+    logs = data.get("logs", [])
+    if compact:
+        for e in logs:
+            click.echo(f'{e.get("timestamp")} [{e.get("tag")}] {e.get("text")}')
+    else:
+        click.echo("=== Timeline ===")
+        for e in logs:
+            click.echo(f'{e.get("timestamp")} [{e.get("tag")}] {e.get("text")}')
+
+@main.group()
+def inventory():
+    """Manage inventory"""
+
+@inventory.command("list")
+def inventory_list():
+    click.echo(get_inventory_summary())
+
+@inventory.command("add")
+@click.argument("name")
+@click.option("--qty", default=1, type=int)
+@click.option("--rarity", default="common")
+def inventory_add(name, qty, rarity):
+    item = inv_add(name, qty, rarity)
+    click.echo(f"Added {item['name']} x{item['qty']} [{item['rarity']}]")
+
+@inventory.command("remove")
+@click.argument("name")
+@click.option("--qty", default=1, type=int)
+def inventory_remove(name, qty):
+    removed = inv_remove(name, qty)
+    if removed:
+        click.echo(f"Removed {removed['name']} x{removed['qty']}")
+    else:
+        click.echo("Item not found.")
+
+@main.command()
+@click.argument("difficulty", type=click.Choice(["easy", "hard"]))
+def challenge(difficulty):
+    """Take on a challenge (easy or hard)"""
+    xp_gain = 2 if difficulty == "easy" else 10
+    bonus = 5  # streak bonus (stub for now)
+    total = gain_xp(xp_gain)
+
+    # Roll loot + add to inventory
+    loot = roll_challenge_loot(difficulty)
+    added = inv_add(loot["name"], loot["qty"], loot["rarity"])
+
+    click.echo(
+        f"Rick takes on a {difficulty} challenge... 🗡️\n"
+        f"Gained {xp_gain} XP (+{bonus} streak bonus).\n"
+        f"Total XP: {total}\n"
+        f"Found: {loot['name']} x{loot['qty']} [{loot['rarity']}] (added to inventory!)"
+    )
+

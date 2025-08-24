@@ -1,0 +1,10 @@
+attack: 5
+badges:
+- brains_installed
+- flashy_personality
+- rpg_system
+charisma: 1
+defense: 2
+hp: 100
+level: 4
+xp: 11

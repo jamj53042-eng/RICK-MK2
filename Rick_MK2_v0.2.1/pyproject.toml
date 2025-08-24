@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Rick-MK2"
+version = "0.2.1"
+description = "Rick MK2 CLI tool"
+authors = [{ name="Jam" }]
+readme = "README.md"
+requires-python = ">=3.8"
+
+[project.scripts]
+rick = "Rick_MK2.cli:main"

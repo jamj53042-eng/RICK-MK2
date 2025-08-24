@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: Rick-MK2
+Version: 0.1.0
+Summary: Productivity tracker with streaks, bonuses, and logging
+Author: Jam
+Requires-Python: >=3.10

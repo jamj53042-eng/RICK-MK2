@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+setup.py
+Rick_MK2/Rick_MK2.egg-info/PKG-INFO
+Rick_MK2/Rick_MK2.egg-info/SOURCES.txt
+Rick_MK2/Rick_MK2.egg-info/dependency_links.txt
+Rick_MK2/Rick_MK2.egg-info/top_level.txt
+Rick_MK2/tests/__init__.py
+Rick_MK2/tests/test_basic.py
+tests/test_basic.py

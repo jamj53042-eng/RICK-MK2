@@ -1,0 +1,17 @@
+﻿from .storage import Storage
+
+def gain_xp(amount: int, streak_bonus: int = 0) -> int:
+    """Gain XP with optional streak bonus. Returns new total XP."""
+    data = Storage().load()
+    stats = data.setdefault("stats", {})
+    current = stats.get("xp", 0)
+    total_gain = amount + streak_bonus
+    new_total = current + total_gain
+    stats["xp"] = new_total
+    Storage().save(data)
+    return new_total
+
+def get_xp() -> int:
+    data = Storage().load()
+    stats = data.get("stats", {})
+    return stats.get("xp", 0)

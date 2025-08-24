@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Rick_MK2"
+version = "0.2.0"
+description = "Rick MK2 assistant"
+authors = [{ name = "Jam" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # add your real dependencies here
+]
+
+# Entry points (scripts)
+[project.scripts]
+rick = "Rick_MK2.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

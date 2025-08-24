@@ -1,0 +1,59 @@
+from __future__ import annotations
+from .storage import Storage
+import random
+
+def list_items():
+    """Return the list of items in inventory"""
+    data = Storage().load()
+    return data.get("inventory", [])
+
+def add_item(name: str, qty: int = 1, rarity: str = "common"):
+    """Add an item with quantity and rarity"""
+    store = Storage()
+    data = store.load()
+    inventory = data.setdefault("inventory", [])
+    entry = {"name": name, "qty": qty, "rarity": rarity}
+    inventory.append(entry)
+    store.save(data)
+    return entry
+
+def remove_item(name: str):
+    """Remove first matching item by name"""
+    store = Storage()
+    data = store.load()
+    inventory = data.get("inventory", [])
+    for i in inventory:
+        if i["name"] == name:
+            inventory.remove(i)
+            store.save(data)
+            return i
+    return None
+
+def roll_challenge_loot(difficulty: str):
+    """Simulate loot drop based on challenge difficulty"""
+    loot_tables = {
+        "easy": [
+            {"name": "Gold Coin", "qty": random.randint(5, 15), "rarity": "common"},
+            {"name": "Healing Potion", "qty": 1, "rarity": "common"},
+        ],
+        "medium": [
+            {"name": "Iron Sword", "qty": 1, "rarity": "uncommon"},
+            {"name": "Gold Coin", "qty": random.randint(10, 25), "rarity": "common"},
+            {"name": "Mana Potion", "qty": 1, "rarity": "uncommon"},
+        ],
+        "hard": [
+            {"name": "Magic Scroll", "qty": 1, "rarity": "rare"},
+            {"name": "Gold Coin", "qty": random.randint(20, 50), "rarity": "common"},
+            {"name": "Enchanted Sword", "qty": 1, "rarity": "rare"},
+        ],
+    }
+    if difficulty not in loot_tables:
+        return {"name": "Junk", "qty": 1, "rarity": "common"}
+    return random.choice(loot_tables[difficulty])
+
+def get_inventory_summary():
+    """Return a summary string of inventory items"""
+    items = list_items()
+    if not items:
+        return "Inventory is empty."
+    return "\n".join(f"{i['name']} x{i['qty']} [{i['rarity']}]" for i in items)
