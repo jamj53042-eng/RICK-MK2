@@ -15,7 +15,6 @@ dependencies = [
 
 # Entry points (scripts)
 [project.scripts]
-rick = "Rick_MK2.cli:main"
-
+rick = "Rick_MK2.rick:main"
 [tool.setuptools.packages.find]
 where = ["src"]
