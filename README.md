@@ -1,20 +1,16 @@
-# Rick MK2
+# RICK-MK2
 
-Productivity tracker with streaks, bonuses, and logging.
+Productivity tracker with streaks, bonuses, and logging—shipped as a small CLI for viewing **status** and **searching logs**.
 
-## Installation
+> Detailed CLI examples also live here: [`src/Rick_MK2/README.md`](src/Rick_MK2/README.md)
 
-Unzip the folder, then install in editable mode:
+---
+
+## Installation (dev)
 
 ```powershell
+# From the repo root
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -U pip
 pip install -e .
-```
-
-## Usage
-
-```powershell
-python -m Rick_MK2.cli status
-python -m Rick_MK2.cli log "✔️ Completed Task A (+15%)"
-python -m Rick_MK2\demo.py
-pytest -q Rick_MK2\tests
-```
