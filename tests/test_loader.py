@@ -1,4 +1,4 @@
-﻿import os, sys, subprocess, json
+import os, sys, subprocess, json
 from pathlib import Path
 
 def run(args, env=None):
