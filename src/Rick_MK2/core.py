@@ -170,3 +170,21 @@ try:
 except Exception:
     pass
 # ---- end RICK_DATA env override (append) ----
+# --- Windows-safe atomic write (same-volume temp) ---
+def _atomic_write_json(path: str, data: dict) -> None:
+    import json, os, tempfile
+    dest_dir = os.path.dirname(os.path.abspath(path)) or "."
+    os.makedirs(dest_dir, exist_ok=True)
+    fd, tmp_path = tempfile.mkstemp(dir=dest_dir, prefix="rick_", suffix=".json")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, path)
+    finally:
+        try:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+        except OSError:
+            pass
