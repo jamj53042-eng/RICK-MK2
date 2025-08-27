@@ -95,7 +95,20 @@ def main():
 
         # JSON (machine-readable)
         if getattr(args, "json", False):
-            data = json.loads(DATA_FILE.read_text(encoding="utf-8")) if DATA_FILE.exists() else {}
+            # robust data load (tolerate BOM + [] or {"logs":[]})
+            text = DATA_FILE.read_text(encoding="utf-8-sig") if DATA_FILE.exists() else "{}"
+            try:
+                raw = json.loads(text)
+            except Exception:
+                raw = {}
+
+            if isinstance(raw, list):
+                data = {"logs": raw}
+            elif isinstance(raw, dict):
+                data = raw
+            else:
+                data = {"logs": []}
+
             logs = data.get("logs", [])
             last = logs[-1] if logs else None
             payload = {"total": len(logs), "last": last}
@@ -216,6 +229,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
