@@ -18,3 +18,5 @@ Screenshot *.png
 *.bak
 
 Rick_MK2_old/
+data/
+.tmp/
