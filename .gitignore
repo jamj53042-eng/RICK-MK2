@@ -1,1 +1,17 @@
-﻿data.json
+﻿# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+
+# Virtual envs
+.venv/
+venv/
+
+# Project artifacts
+data.json
+logs_export.csv
+Rick_MK2_backup_*.zip
+
+# Local screenshots (optional)
+Screenshot *.png
